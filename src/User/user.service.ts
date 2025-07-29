@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
@@ -10,13 +11,15 @@ export class UserService {
   getUser(id: string): string {
     return `User with ID ${id} returned from service`;
   }
+
 /*
   getUsersByName(name: string): string {
     return `Name: ${name} returned from service`;
   }
 */
-  createUser(data: any): string {
-    return `User created with name: ${data.name}, username: ${data.username}`;
+
+  createUser(data: User): string {
+    return `User created with name: ${data.username}, phoneno: ${data.phoneno}`;
   }
 
   updateUser(data: any): string {
