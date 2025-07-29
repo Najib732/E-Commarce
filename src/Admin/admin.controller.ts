@@ -27,6 +27,7 @@ export class AdminController {
     return this.adminService.deleteAdmin(id);
   }
 
+
   @Put('edit/:id')
   editAdmin(@Param('id') id: number, @Body() updatedData: Partial<AdminDto>) {
     return this.adminService.editAdmin(id, updatedData);
@@ -58,4 +59,21 @@ export class AdminController {
       nidImagePath: file?.path ?? null, 
     });
   }
+
+  
+    @Delete('delete/:id')
+    deleteAdmin(@Param('id') id: number): String {
+        return this.adminService.deleteAdmin(id);
+    }
+    
+    @Delete('deleteAll')
+    declareAllAdmins(@Param('id')id :number): String {
+        return "checking delete all admins";
+    }
+
+    @Put('edit/:id')
+    editAdmin(@Param('id') id: number, @Body() updatedData: object): String {
+        return this.adminService.editAdmin(id, updatedData);
+    }
+
 }

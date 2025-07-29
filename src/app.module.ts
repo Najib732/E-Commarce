@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AdminModule } from './Admin/admin.module';
+
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Admin } from './Admin/Admin.entity';
 
@@ -19,6 +20,13 @@ import { Admin } from './Admin/Admin.entity';
     }),
     AdminModule,
   ],
+
+import { UserModule } from './User/user.module';
+import { SellerModule } from './seller/seller.module';
+
+@Module({
+  imports: [AdminModule, UserModule,SellerModule],
+
   controllers: [AppController],
   providers: [AppService],
 })
