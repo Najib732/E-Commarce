@@ -1,24 +1,25 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
+import { SellerDTO } from './seller.sellerDTO';
+
+
 
 @Injectable()
 export class SellerService {
-    
-    getSeller(): string {
-        return "All seller";
-    }
 
- 
-    addSeller(seller: object): object {
-        return seller;
-    }
+  addSeller(sellerData: SellerDTO): SellerDTO {
+    return sellerData; 
+  }
 
-    deleteSeller(id: number): string {
-        
-        return "Seller with ID ${id} has been deleted";
-    }
+ getAllSellers(): SellerDTO[] {
+    // This should return an array of SellerDTOs; replace with actual data source as needed
+    return [];
+  }
 
-    editSeller(id: number, updatedData: object): string {
-       
-        return "Seller with ID ${id} has been edited";
-    }
+  updateSeller(sellerData: SellerDTO): SellerDTO {
+    return sellerData; 
+  }
+
+  deleteSeller(): { message: string } {
+    return { message: 'deleted seller)' };
+  }
 }
