@@ -1,35 +1,31 @@
-import { Body, Controller, Delete, Get, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
-
+import {Body,Controller,Delete, Get,Param,Patch,Post} from '@nestjs/common';
 import { SellerService } from './seller.service';
-import { SellerDTO } from './seller.sellerDTO';
+import { Seller } from './seller.sellerDTO';
 
 @Controller('seller')
 export class SellerController {
   constructor(private readonly sellerService: SellerService) {}
 
   @Post()
-  @UsePipes(new ValidationPipe())
-  addSeller(@Body() sellerData: SellerDTO): SellerDTO {
-   //console.log(sellerData);
-    return this.sellerService.addSeller(sellerData);
+  createUser(@Body() sellerData:Partial<Seller>): Promise<Seller> {
+    return this.sellerService.createSeller(sellerData);
   }
 
-  @Get()
-  getAllSellers() {
-    
-    return this.sellerService.getAllSellers();
+  @Patch(':id/phone')
+  updatePhone(
+    @Param('id') id: string,
+    @Body('phone') phone: number,
+  ): Promise<Seller> {
+    return this.sellerService.updatePhone(id, phone);
   }
 
-  @Put()
-  @UsePipes(new ValidationPipe())
-  updateSeller(@Body() sellerData: SellerDTO): SellerDTO {
-    //console.log(sellerData);
-    return this.sellerService.updateSeller(sellerData);
-  }
+  @Get('nullnames')
+getSellerId(): Promise<Seller[]> {
+  return this.sellerService.getSellerId();
+}
 
-  @Delete()
-  deleteSeller(): { message: string } {
-    
-    return this.sellerService.deleteSeller();
+  @Delete(':id')
+  deleteUser(@Param('id') id: string): Promise<{ message: string }> {
+    return this.sellerService.deleteSeller(id);
   }
 }
