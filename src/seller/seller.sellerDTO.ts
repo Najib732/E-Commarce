@@ -1,26 +1,21 @@
-import { IsEmail, Matches, MinLength, IsIn, IsString } from 'class-validator';
+import {Entity,PrimaryColumn,Column,BeforeInsert} from 'typeorm';
 
-export class SellerDTO {
-  @Matches(/^[\w.+-]+@aiub\.edu$/, {
-    message: 'Email must be from aiub.edu domain',
-  })
-  email: string;
+@Entity('seller')
+export class Seller {
+  @PrimaryColumn()
+  id: string;
 
-  @MinLength(6, {
-    message: 'Password must be at least 6 characters long',
-  })
-  @Matches(/.*[A-Z].*/, {
-    message: 'Password must contain at least one uppercase letter',
-  })
-  password: string;
+  @BeforeInsert()
+  generateId() {
+    this.id = 'seller_' + Math.floor(Math.random() * 1000000);
+  }
 
-  @IsIn(['male', 'female'], {
-    message: 'Gender must be either male or female',
-  })
-  gender: string;
+  @Column({ default: true })
+  isActive: boolean;
 
-  @IsString({
-    message: 'Phone number must be a string',
-  })
-  phone: string;
+  @Column({ nullable: true })
+  fullName: string;
+
+  @Column('bigint', { unsigned: true })
+  phone: number;
 }
