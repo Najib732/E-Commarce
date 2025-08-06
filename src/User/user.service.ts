@@ -1,37 +1,44 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, ILike } from 'typeorm';
 import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
-    /*
-  getAllUsers(): string {
-    return 'All users returned from service';
+  constructor(
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+  ) { }
+
+  
+  async createUser(data: Partial<User>): Promise<User> {
+    const user = this.userRepository.create(data);
+    return this.userRepository.save(user);
   }
-*/
-  getUser(id: string): string {
-    return `User with ID ${id} returned from service`;
+ 
+   async findByFullNameSubstring(substring: string): Promise<User[]> {
+    return this.userRepository.find({
+      where: {
+        fullName: ILike(`%${substring}%`),
+      },
+    });
+  }
+ 
+  async findByUsername(username: string): Promise<User> {
+    const value = await this.userRepository.findOne({
+      where: { username },
+    });
+
+    if (value !== null) {
+      return value;
+    } else {
+      throw new Error('User not found');
+    }
+
   }
 
-/*
-  getUsersByName(name: string): string {
-    return `Name: ${name} returned from service`;
+  // Remove a user by unique username
+  async deleteByUsername(username: string): Promise<void> {
+    await this.userRepository.delete({ username });
   }
-*/
-
-  createUser(data: User): string {
-    return `User created with name: ${data.username}, phoneno: ${data.phoneno}`;
-  }
-
-  updateUser(data: any): string {
-  var id = data.id;
-  var name = data.name;
-  var username = data.username;
-  return `User with ID ${id} updated. New name: ${name}, username: ${username}`;
- }
-
-
-  deleteUser(id: string): string {
-    return `User with ID ${id} deleted`;
-  }
-
 }

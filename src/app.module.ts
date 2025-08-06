@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AdminModule } from './Admin/admin.module';
-
+import { UserModule } from './User/user.module';
+import { SellerModule } from './seller/seller.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Admin } from './Admin/Admin.entity';
+import { User } from './User/user.entity';
 
 @Module({
   imports: [
@@ -13,20 +15,15 @@ import { Admin } from './Admin/Admin.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'AIUB@0540021830',
+      password: '1234',
       database: 'ecommarce',
-      entities: [Admin],
+      entities: [Admin,User],
       synchronize: true,
     }),
     AdminModule,
+    UserModule,
+    SellerModule,
   ],
-
-import { UserModule } from './User/user.module';
-import { SellerModule } from './seller/seller.module';
-
-@Module({
-  imports: [AdminModule, UserModule,SellerModule],
-
   controllers: [AppController],
   providers: [AppService],
 })
